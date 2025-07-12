@@ -27,6 +27,8 @@ template <typename K> class Vector {
   public:
     /// Underlying aligned data storage (SIMD-friendly).
     aligned_vector<K> data;
+	K* getData() { return data.data(); }
+	const K* getData() const { return data.data(); }
     /** @name Constructors */
     ///@{
 
@@ -451,6 +453,7 @@ template <typename K> class Vector {
 	Vector<K>& operator+=(const Vector<K>& m) { this->add(m); return *this; }
 	Vector<K>& operator-=(const Vector<K>& m) { this->sub(m); return *this; }
 	Vector<K>& operator*=(K alpha) { this->scl(alpha); return *this; }
+	Vector<K>& operator*(K alpha) { this->scl(alpha); return *this; }
 
 };
 

@@ -527,7 +527,7 @@ template <typename K, bool RowMajor = false> class Matrix {
 		{
 			size_t j = 0;
 			reg acc = Simd::zero();
-			K* row_ptr = &data[i * cols];
+			const K* row_ptr = &data[i * cols];
 
 			for (; j + simd_width <= cols; j += simd_width)
 			{

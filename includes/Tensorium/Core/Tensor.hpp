@@ -4,6 +4,7 @@
 #include "../SIMD/CPU_id.hpp"
 #include "../SIMD/SIMD.hpp"
 #include "Vector.hpp"
+#include "Matrix.hpp"
 #include <array>
 #include <cassert>
 #include <cmath>
@@ -14,7 +15,7 @@
 #include <vector>
 
 namespace tensorium {
-/**
+/*
  * @brief Multi-dimensional tensor class with fixed rank and SIMD support
  *
  * This class provides high-performance operations on tensors of arbitrary rank,
@@ -130,12 +131,20 @@ template <typename K, std::size_t Rank> class Tensor {
 		return Tensor<K, 2>(matrix_to_tensor(tensor_to_matrix(*this) * tensor_to_matrix(B)));
 	}
 
-	Tensor<K, 2> operator+(Vector<K> v) {
+	Tensor<K, 2> operator+(const Vector<K>& v) {
 		return Tensor<K, 2>(matrix_to_tensor(tensor_to_matrix(*this).broadcast(v)));
 	}
-	
+
 	Tensor<K, 2> operator+(const Vector<K>& v) const {
 		return Tensor<K, 2>(matrix_to_tensor(tensor_to_matrix(*this).broadcast(v)));
+	}
+
+	Tensor<K, 2> operator*(const float x) const {
+		return Tensor<K, 2>(matrix_to_tensor(tensor_to_matrix(*this) * x));
+	}
+
+	Tensor<K, 2> operator-=(const Tensor<K, 2>& T) {
+		return Tensor<K, 2>(matrix_to_tensor(tensor_to_matrix(*this) - tensor_to_matrix(T)));
 	}
 
 	inline Vector<K> sum_rows()
